@@ -1,0 +1,29 @@
+# 管理端
+
+type Admin {
+  signin(identity: String!): String
+}
+
+extend type Mutation {
+  admin: Admin
+}
+
+# 管理端WebSocket服务
+# 等待微信扫码登录
+enum ScanStatus {
+  Unknown
+  Cancel
+  Waiting
+  Scanned
+  Confirmed
+  Timeout
+}
+
+type ScanResult {
+  status: ScanStatus
+  url: String
+}
+
+extend type Subscription {
+  onScan: ScanResult @scope(type: PUBLIC)
+}

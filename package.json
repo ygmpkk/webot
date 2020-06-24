@@ -1,0 +1,66 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Timothy",
+    "email": "ygmpkk@gmail.com",
+    "url": "https://github.com/ygmpkk"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "nodemon": "nodemon",
+    "start": "ts-node ./src/index.ts",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "postbuild": "cp -r ./src/typedefs ./dist/typedefs",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apollo-server-core": "2.9.16",
+    "cors": "2.8.5",
+    "fastify": "2.11.0",
+    "fastify-cors": "3.0.1",
+    "fastify-formbody": "3.1.0",
+    "graphql": "14.5.8",
+    "graphql-subscriptions": "1.1.0",
+    "graphql-tag": "2.10.3",
+    "graphql-tools": "4.0.6",
+    "hyperid": "2.0.3",
+    "jsonwebtoken": "8.5.1",
+    "lodash": "4.17.15",
+    "moment": "2.24.0",
+    "pino-pretty": "3.5.0",
+    "request": "2.88.0",
+    "request-promise": "4.2.5",
+    "require-all": "3.0.0",
+    "require-graphql-file": "1.0.1",
+    "rob-config": "4.2.0",
+    "safe-base64": "^2.0.1-0",
+    "sequelize": "5.21.3",
+    "sequelize-typescript": "1.1.0",
+    "sqlite3": "^4.2.0",
+    "uuid": "8.1.0",
+    "wechaty": "0.38.4",
+    "wechaty-puppet-padplus": "0.6.3"
+  },
+  "devDependencies": {
+    "@types/jest": "24.9.1",
+    "@types/lodash": "4.14.149",
+    "@types/node": "13.5.0",
+    "@types/request-promise": "4.1.45",
+    "@types/uuid": "8.0.0",
+    "jest": "25.1.0",
+    "light-my-request": "3.7.0",
+    "nodemon": "2.0.2",
+    "rimraf": "3.0.2",
+    "ts-jest": "25.0.0",
+    "ts-node": "8.10.2",
+    "typescript": "3.7.5"
+  },
+  "engines": {
+    "node": "^12.0.0"
+  },
+  "engineStrict": true
+}

@@ -1,0 +1,10 @@
+apps:
+  - script: dist/index.js
+    name: 'api'
+    cwd: './'
+    instances: max
+    exec_mode: cluster
+    env:
+      NODE_ENV: production
+    env_production:
+      NODE_ENV: production

@@ -1,0 +1,5 @@
+export enum Scope {
+  PUBLIC = 'PUBLIC',
+  PRIVATE = 'PRIVATE',
+  PUBLIC_OR_PRIVATE = 'PUBLIC_OR_PRIVATE',
+}

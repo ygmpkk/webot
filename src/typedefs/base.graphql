@@ -1,0 +1,15 @@
+scalar ISODate
+scalar Any
+
+type Query {
+  _empty: Any
+}
+
+type Mutation {
+  _mutationEmpty: Any
+}
+
+type Subscription {
+  "占坑"
+  _onEmpty: String
+}

@@ -1,0 +1,6 @@
+directive @scope(type: Scope = PRIVATE) on FIELD_DEFINITION
+
+enum Scope {
+  PUBLIC
+  PRIVATE
+}
