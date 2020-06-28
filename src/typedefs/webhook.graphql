@@ -1,3 +1,4 @@
 extend type Mutation {
-  say(topic: String!, message: String!): Boolean @scope(type: PRIVATE)
+  say(topic: String!, message: String!, mention: [String]): Boolean
+    @scope(type: PRIVATE)
 }

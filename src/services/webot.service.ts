@@ -1,4 +1,4 @@
-import { Wechaty, ScanStatus } from "wechaty";
+import { Wechaty, ScanStatus, Message } from "wechaty";
 import { pubsub, SubscribeTrigger } from "./subscribe.service";
 import PuppetPadPro from "wechaty-puppet-padplus";
 
@@ -12,21 +12,22 @@ export const bot = new Wechaty({
   puppet: puppet,
 });
 
+export let wechatQrcode = "";
+
 this.bot
   .on("start", () => {
     console.log("onStart");
   })
   .on("scan", (qrcode: string, status: ScanStatus) => {
     if (status === ScanStatus.Waiting) {
-      const url = [
+      wechatQrcode = [
         "https://api.qrserver.com/v1/create-qr-code/?data=",
         encodeURIComponent(qrcode),
       ].join("");
-      // const url = `https://www.west.cn/web/tool/codepayimg?uuid=${qrcodeImageUrl}`;
-      console.log("扫码登录:", url);
+      console.log("扫码登录:", wechatQrcode);
       pubsub.publish(SubscribeTrigger.ON_SCAN, {
         status,
-        url,
+        url: wechatQrcode,
       });
       return;
     }
@@ -36,14 +37,26 @@ this.bot
   .on("login", async (user) => {
     console.log("登录成功：" + user);
   })
-  .on("message", async (message) => {
+  .on("message", async (message: Message) => {
     console.log("收到消息：" + message);
     if (message.self()) {
       return;
     }
 
-    if (await message.mentionSelf()) {
-      message.say("自动回复中...");
+    const text = message.text();
+    const room = message.room();
+    const fromUser: any = message.from();
+
+    console.log("text: ", text);
+    console.log("room:", room);
+
+    if (room) {
+      if (await message.mentionSelf()) {
+        // TODO 定义一套 outgoing
+        if (/净值/.test(text)) {
+          room.say(`最新净值: 1.37`, fromUser);
+        }
+      }
     }
   })
   .on("friendship", (friendship) => console.log("收到好友请求：" + friendship))
@@ -54,11 +67,7 @@ this.bot
       )}, invited by ${inviter}`
     );
   })
-  .on("room-invite", (invitation) =>
-    console.log("收到入群邀请：" + invitation)
-  );
-
-// this.bot
-//   .start()
-//   .then(() => console.info("StarterBot", "Starter Bot Started."))
-//   .catch((e) => console.error("StarterBot", e));
+  .on("room-invite", (invitation) => console.log("收到入群邀请：" + invitation))
+  .start()
+  .then(() => console.info("StarterBot", "Starter Bot Started."))
+  .catch((e) => console.error("StarterBot", e));

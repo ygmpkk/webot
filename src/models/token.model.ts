@@ -1,10 +1,22 @@
-import { Table, Column, Model, DataType, Unique, PrimaryKey, Default, BelongsTo, ForeignKey } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  Unique,
+  PrimaryKey,
+  Default,
+  BelongsTo,
+  ForeignKey,
+} from "sequelize-typescript";
 import User from "./user.model";
 
 export enum AuthType {
   MOBILE = "MOBILE",
   WECHAT = "WECHAT",
   APPLE = "APPLE",
+  LOCAL = "LOCAL",
+  TOKEN = "TOKEN",
 }
 
 export interface IToken {

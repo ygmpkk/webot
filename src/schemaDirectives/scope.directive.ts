@@ -1,4 +1,10 @@
-import { DirectiveLocation, GraphQLDirective, GraphQLEnumType, GraphQLSchema, defaultFieldResolver } from "graphql";
+import {
+  DirectiveLocation,
+  GraphQLDirective,
+  GraphQLEnumType,
+  GraphQLSchema,
+  defaultFieldResolver,
+} from "graphql";
 import { SchemaDirectiveVisitor } from "graphql-tools";
 import { Scope } from "../models/scope.enum";
 import { AuthService } from "../services/auth.service";
@@ -11,11 +17,11 @@ export class ScopeDirective extends SchemaDirectiveVisitor {
     field.resolve = async function (...args) {
       const [, , ctx] = args;
       const { req, reply } = ctx;
+      const auth = new AuthService(ctx);
 
       if (type === Scope.PUBLIC_OR_PRIVATE) {
         try {
-          const auth = new AuthService(ctx);
-          if (auth.getToken(req)) {
+          if (AuthService.getToken(req)) {
             await auth.authenticate();
             checkVerify(req);
           }
@@ -25,7 +31,6 @@ export class ScopeDirective extends SchemaDirectiveVisitor {
         }
       } else if (type === Scope.PRIVATE) {
         try {
-          const auth = new AuthService(ctx);
           await auth.authenticate();
           checkVerify(req);
         } catch (error) {
@@ -39,7 +44,10 @@ export class ScopeDirective extends SchemaDirectiveVisitor {
     };
   }
 
-  public static getDirectiveDeclaration(directiveName: string, schema: GraphQLSchema): GraphQLDirective {
+  public static getDirectiveDeclaration(
+    directiveName: string,
+    schema: GraphQLSchema
+  ): GraphQLDirective {
     return new GraphQLDirective({
       name: directiveName,
       locations: [DirectiveLocation.FIELD_DEFINITION],

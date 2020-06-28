@@ -1675,6 +1675,11 @@ async-retry@^1.2.1:
   dependencies:
     retry "0.12.0"
 
+async@0.9.x:
+  version "0.9.2"
+  resolved "https://registry.npm.taobao.org/async/download/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
+  integrity sha1-rqdNXmHB+JlhO/ZL2mbUx48v0X0=
+
 async@>=0.2.9:
   version "3.2.0"
   resolved "https://registry.npm.taobao.org/async/download/async-3.2.0.tgz#b3a2685c5ebb641d3de02d161002c60fc9f85720"
@@ -2355,12 +2360,17 @@ convict@~4.4.0:
     validator "10.8.0"
     yargs-parser "11.0.0"
 
+cookie-signature@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/cookie-signature/download/cookie-signature-1.1.0.tgz#cc94974f91fb9a9c1bb485e95fc2b7f4b120aff2"
+  integrity sha1-zJSXT5H7mpwbtIXpX8K39LEgr/I=
+
 cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.npm.taobao.org/cookie/download/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
   integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
 
-cookie@^0.4.0:
+cookie@^0.4.0, cookie@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npm.taobao.org/cookie/download/cookie-0.4.1.tgz#afd713fe26ebd21ba95ceb61f9a8116e50a537d1"
   integrity sha1-r9cT/ibr0hupXOth+agRblClN9E=
@@ -2737,6 +2747,13 @@ ecdsa-sig-formatter@1.0.11:
   dependencies:
     safe-buffer "^5.0.1"
 
+ejs@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.npm.taobao.org/ejs/download/ejs-3.1.3.tgz#514d967a8894084d18d3d47bd169a1c0560f093d"
+  integrity sha1-UU2WeoiUCE0Y09R70WmhwFYPCT0=
+  dependencies:
+    jake "^10.6.1"
+
 emoji-regex@^7.0.1:
   version "7.0.3"
   resolved "https://registry.npm.taobao.org/emoji-regex/download/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
@@ -3055,6 +3072,20 @@ fast-safe-stringify@^2.0.7:
   resolved "https://registry.npm.taobao.org/fast-safe-stringify/download/fast-safe-stringify-2.0.7.tgz#124aa885899261f68aedb42a7c080de9da608743"
   integrity sha1-EkqohYmSYfaK7bQqfAgN6dpgh0M=
 
+fast-xml-parser@^3.15.0:
+  version "3.17.4"
+  resolved "https://registry.npm.taobao.org/fast-xml-parser/download/fast-xml-parser-3.17.4.tgz#d668495fb3e4bbcf7970f3c24ac0019d82e76477"
+  integrity sha1-1mhJX7Pku895cPPCSsABnYLnZHc=
+
+fastify-cookie@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.npm.taobao.org/fastify-cookie/download/fastify-cookie-3.6.1.tgz#560495c28e381f71f7ac86fbb9f43fd637a182fe"
+  integrity sha1-VgSVwo44H3H3rIb7ufQ/1jehgv4=
+  dependencies:
+    cookie "^0.4.0"
+    cookie-signature "^1.1.0"
+    fastify-plugin "^1.4.0"
+
 fastify-cors@3.0.1:
   version "3.0.1"
   resolved "https://registry.npm.taobao.org/fastify-cors/download/fastify-cors-3.0.1.tgz#6773aa3756beb886637736ee97a3d6063d9d0f10"
@@ -3071,12 +3102,27 @@ fastify-formbody@3.1.0:
     fastify-plugin "^1.0.0"
     qs "^6.5.1"
 
-fastify-plugin@^1.0.0, fastify-plugin@^1.6.0:
+fastify-plugin@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.npm.taobao.org/fastify-plugin/download/fastify-plugin-0.2.2.tgz#e01b67685fd02e87edc98670ce2acfe251a2c715"
+  integrity sha1-4BtnaF/QLoftyYZwzirP4lGixxU=
+  dependencies:
+    semver "^5.4.1"
+
+fastify-plugin@^1.0.0, fastify-plugin@^1.4.0, fastify-plugin@^1.6.0:
   version "1.6.1"
   resolved "https://registry.npm.taobao.org/fastify-plugin/download/fastify-plugin-1.6.1.tgz#122f5a5eeb630d55c301713145a9d188e6d5dd5b"
   integrity sha1-Ei9aXutjDVXDAXExRanRiObV3Vs=
   dependencies:
     semver "^6.3.0"
+
+fastify-xml-body-parser@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/fastify-xml-body-parser/download/fastify-xml-body-parser-1.1.0.tgz#bd11fa7dbd0af23684b2b92b1e0225173da35bef"
+  integrity sha1-vRH6fb0K8jaEsrkrHgIlFz2jW+8=
+  dependencies:
+    fast-xml-parser "^3.15.0"
+    fastify-plugin "^0.2.2"
 
 fastify@2.11.0:
   version "2.11.0"
@@ -3153,6 +3199,13 @@ file-type@^9.0.0:
   version "9.0.0"
   resolved "https://registry.npm.taobao.org/file-type/download/file-type-9.0.0.tgz#a68d5ad07f486414dfb2c8866f73161946714a18"
   integrity sha1-po1a0H9IZBTfssiGb3MWGUZxShg=
+
+filelist@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/filelist/download/filelist-1.0.1.tgz#f10d1a3ae86c1694808e8f20906f43d4c9132dbb"
+  integrity sha1-8Q0aOuhsFpSAjo8gkG9D1MkTLbs=
+  dependencies:
+    minimatch "^3.0.4"
 
 fill-range@^4.0.0:
   version "4.0.0"
@@ -3627,6 +3680,11 @@ has@^1.0.3:
   integrity sha1-ci18v8H2qoJB8W3YFOAR4fQeh5Y=
   dependencies:
     function-bind "^1.1.1"
+
+hashlru@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npm.taobao.org/hashlru/download/hashlru-2.3.0.tgz#5dc15928b3f6961a2056416bb3a4910216fdfb51"
+  integrity sha1-XcFZKLP2lhogVkFrs6SRAhb9+1E=
 
 hosted-git-info@^2.1.4:
   version "2.8.8"
@@ -4146,6 +4204,16 @@ iterall@^1.1.3, iterall@^1.2.1, iterall@^1.2.2:
   version "1.3.0"
   resolved "https://registry.npm.taobao.org/iterall/download/iterall-1.3.0.tgz?cache=0&sync_timestamp=1578018717555&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fiterall%2Fdownload%2Fiterall-1.3.0.tgz#afcb08492e2915cbd8a0884eb93a8c94d0d72fea"
   integrity sha1-r8sISS4pFcvYoIhOuTqMlNDXL+o=
+
+jake@^10.6.1:
+  version "10.8.2"
+  resolved "https://registry.npm.taobao.org/jake/download/jake-10.8.2.tgz?cache=0&sync_timestamp=1591684013969&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjake%2Fdownload%2Fjake-10.8.2.tgz#ebc9de8558160a66d82d0eadc6a2e58fbc500a7b"
+  integrity sha1-68nehVgWCmbYLQ6txqLlj7xQCns=
+  dependencies:
+    async "0.9.x"
+    chalk "^2.4.2"
+    filelist "^1.0.1"
+    minimatch "^3.0.4"
 
 jest-changed-files@^25.5.0:
   version "25.5.0"
@@ -5955,6 +6023,14 @@ pngjs@^3.0.0, pngjs@^3.3.0, pngjs@^3.3.3:
   resolved "https://registry.npm.taobao.org/pngjs/download/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
   integrity sha1-mcp9clll+2VYFOr2XzjxK72/VV8=
 
+point-of-view@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.npm.taobao.org/point-of-view/download/point-of-view-3.8.0.tgz#8708ff7c9f2195c11014d7f14a6965e5388bf4ac"
+  integrity sha1-hwj/fJ8hlcEQFNfxSmll5TiL9Kw=
+  dependencies:
+    fastify-plugin "^1.6.0"
+    hashlru "^2.3.0"
+
 portfinder@^1.0.25:
   version "1.0.26"
   resolved "https://registry.npm.taobao.org/portfinder/download/portfinder-1.0.26.tgz#475658d56ca30bed72ac7f1378ed350bd1b64e70"
@@ -6236,6 +6312,11 @@ redux@^4.0.0, redux@^4.0.5:
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.npm.taobao.org/reflect-metadata/download/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha1-Z648pXyXKiqhZCsQ/jY/4y1J3Ag=
 
 regenerator-runtime@^0.10.0:
   version "0.10.5"

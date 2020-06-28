@@ -21,12 +21,17 @@ module.exports = {
     level: "debug",
     prettyPrint: true,
   },
+  security: {
+    jwt: {
+      secret: "4508cfc28c1773fcfb9cca8d75fc531a",
+    },
+  },
   cors: {
     origin: "*",
     allowedHeaders: "*",
   },
   db: {
-    dialect: "sqlite3",
+    dialect: "sqlite",
     storage: path.join(__dirname, "../bot.sqlite3"),
     define: {
       timestamps: true,

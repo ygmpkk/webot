@@ -10,7 +10,7 @@ const IV_LENGTH = 16;
 export const sign = (payload: object, exp: number) => {
   const text = JSON.stringify({
     payload,
-    exp: new Date().getTime() + exp * 1000,
+    exp: exp ? new Date().getTime() + exp * 1000 : undefined,
   });
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv(CIPHER_ALGO, key, iv);

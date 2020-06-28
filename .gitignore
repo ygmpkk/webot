@@ -129,3 +129,4 @@ public/
 dist
 tsconfig.tsbuildinfo
 *.memory-card.json
+*.sqlite3

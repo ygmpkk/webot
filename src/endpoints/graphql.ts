@@ -10,6 +10,8 @@ import { ConnectionContext } from "subscriptions-transport-ws";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
 import { IServer } from "../interface";
+import { AuthService } from "../services/auth.service";
+import { bot } from "../services/webot.service";
 
 export interface MyGraphQLOptions extends GraphQLOptions {
   introspection?: Boolean;
@@ -109,7 +111,7 @@ export default function (
     },
   });
 
-  new SubscriptionServer(
+  const subscriptionServer = new SubscriptionServer(
     {
       execute,
       subscribe,
@@ -122,6 +124,24 @@ export default function (
     {
       server: router.server,
       path: subscriptionPath,
+    }
+  );
+
+  subscriptionServer.server.on(
+    "connection",
+    async (websocket: WebSocket, req: FastifyRequest<IncomingMessage>) => {
+      const token = AuthService.getToken(req);
+      console.log("subscriptions connection =>", token, req.headers);
+
+      if (!token) {
+        websocket.send(
+          JSON.stringify({
+            type: "error",
+            payload: { code: 401, message: "未认证" },
+          })
+        );
+        return websocket.close(1000, "未认证");
+      }
     }
   );
 

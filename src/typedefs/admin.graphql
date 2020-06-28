@@ -1,7 +1,9 @@
 # 管理端
 
 type Admin {
-  signin(identity: String!): String
+  signin(identity: String!, password: String!): String
+  start: Boolean @scope(type: PRIVATE)
+  token: String @scope(type: PRIVATE)
 }
 
 extend type Mutation {
@@ -17,6 +19,7 @@ enum ScanStatus {
   Scanned
   Confirmed
   Timeout
+  Logged
 }
 
 type ScanResult {
