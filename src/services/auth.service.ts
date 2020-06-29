@@ -11,9 +11,13 @@ import cookies from "cookie";
 export class AuthService extends BaseService {
   static getToken = (req: FastifyRequest<IncomingMessage>) => {
     var cookie = cookies.parse(req.headers.cookie || "").token;
-    const token =
-      req.headers.authorization || (req.query && req.query["token"]) || "";
-    return token.replace(/^bearer/i, "").trim() || cookie || "";
+    const token = req.headers.authorization || "";
+    return (
+      token.replace(/^bearer/i, "").trim() ||
+      (req.query && req.query["token"]) ||
+      cookie ||
+      ""
+    );
   };
 
   async authenticate() {

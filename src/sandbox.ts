@@ -1,16 +1,16 @@
-import { NodeVM } from 'vm2';
+import { NodeVM } from "vm2";
 
 const options: any = {
-  console: 'inherit',
-  timeout: 1000 * 60,
+  console: "inherit",
+  timeout: 1000 * 60 * 2,
   eval: false,
   wasm: false,
   sandbox: {},
   require: {
     external: {
-      modules: ['request', 'request-promise', 'lodash', 'moment'],
+      modules: ["request", "request-promise", "lodash", "moment"],
     },
-    builtin: ['crypto'],
+    builtin: ["crypto"],
   },
 };
 

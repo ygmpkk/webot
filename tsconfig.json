@@ -18,7 +18,7 @@
     "pretty": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src"
+    "baseUrl": "./"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

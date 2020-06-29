@@ -1,4 +1,9 @@
-extend type Mutation {
+type Room {
+  "发消息到群"
   say(topic: String!, message: String!, mention: [String]): Boolean
     @scope(type: PRIVATE)
+}
+extend type Mutation {
+  "群"
+  room: Room
 }

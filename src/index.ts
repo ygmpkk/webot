@@ -1,16 +1,15 @@
 import path from "path";
 import config from "rob-config";
 import { Server, IncomingMessage, ServerResponse } from "http";
+import { FastifyReply } from "fastify";
+
 import factory, { createServer } from "./factory";
 import { IServer } from "./interface";
-import { schema } from "./resolvers";
-
-import graphqlService from "./endpoints/graphql";
-import setupService from "./endpoints/setup";
+import { adminSchema, webhookSchema } from "./resolvers";
 import { sequelize } from "./db";
 import { errorSchema } from "./error";
-import { FastifyReply } from "fastify";
-import { json } from "sequelize/types";
+import graphqlService from "./endpoints/graphql";
+import setupService from "./endpoints/setup";
 
 const pkg = require("../package.json");
 
@@ -19,21 +18,39 @@ const app: IServer<Server, IncomingMessage, ServerResponse> = factory({
   config: config,
 });
 
+// 页面渲染View
 app.register(require("point-of-view"), {
   engine: {
     ejs: require("ejs"),
   },
   root: path.join(__dirname, "templates"),
   options: {
-    production: process.env.NODE_ENV !== "development",
+    useHtmlMinifyStream: require("html-minify-stream"),
+    htmlMinifierOptions: {
+      collapseWhitespace: true,
+      removeComments: true,
+      removeRedundantAttributes: false,
+      removeScriptTypeAttributes: false,
+      removeStyleLinkTypeAttributes: false,
+      useShortDoctype: true,
+      minifyJS: {
+        mangle: true,
+        output: {
+          beautify: false,
+          comments: false,
+        },
+      },
+      minifyCSS: true,
+    },
+    production: true,
   },
   defaultContext: {
     dev: process.env.NODE_ENV === "development",
   },
 });
 
+// 数据库
 app.decorate("db", sequelize);
-
 app.ready(async () => {
   try {
     await sequelize.authenticate();
@@ -44,8 +61,9 @@ app.ready(async () => {
   }
 });
 
+// Cookie
 app.register(require("fastify-cookie"), {
-  secret: config.get("security.jwt.secret"),
+  secret: config.get("security.secret"),
   parseOptions: {},
 });
 
@@ -72,10 +90,18 @@ app.addHook("preHandler", (req, reply, next) => {
 });
 
 app.register(setupService);
+
+// admin graphql
+const adminConfig = config.get("graphql.admin");
 app.register(graphqlService, {
-  prefix: "/gql",
-  subscriptionPath: "/pubsub",
-  options: { ...config.get("graphql"), schema },
+  options: { ...adminConfig, schema: adminSchema },
+  preHandler: async () => {},
+});
+
+// webhook graphql
+const webhookConfig = config.get("graphql.webhook");
+app.register(graphqlService, {
+  options: { ...webhookConfig, schema: webhookSchema },
   preHandler: async () => {},
 });
 

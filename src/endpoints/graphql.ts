@@ -11,7 +11,6 @@ import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
 import { IServer } from "../interface";
 import { AuthService } from "../services/auth.service";
-import { bot } from "../services/webot.service";
 
 export interface MyGraphQLOptions extends GraphQLOptions {
   introspection?: Boolean;
@@ -30,13 +29,12 @@ export default function (
 ) {
   const {
     preHandler,
-    subscriptionPath,
-    options: { schema, ...options },
+    options: { schema, path, subscription, subscriptionPath, ...options },
   } = opts;
 
   router.route({
     method: ["GET", "POST"],
-    url: "/",
+    url: path,
     schema: {
       querystring: {
         query: {
@@ -88,7 +86,7 @@ export default function (
             reply,
             server: router,
           },
-          ...opts,
+          ...options,
         },
         query: req.req.method === "POST" ? req.body : req.query,
         request: convertNodeHttpToRequest(req.req),
@@ -111,46 +109,50 @@ export default function (
     },
   });
 
-  const subscriptionServer = new SubscriptionServer(
-    {
-      execute,
-      subscribe,
-      schema,
-      keepAlive: 3000,
-      onDisconnect: (websocket: WebSocket, context: ConnectionContext) => {
-        console.log("subscriptions disconnected =>", context.request.headers);
+  if (subscription) {
+    const subscriptionServer = new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema,
+        keepAlive: 3000,
+        onDisconnect: (websocket: WebSocket, context: ConnectionContext) => {
+          // console.log("subscriptions disconnected =>", context.request.headers);
+        },
       },
-    },
-    {
-      server: router.server,
-      path: subscriptionPath,
-    }
-  );
-
-  subscriptionServer.server.on(
-    "connection",
-    async (websocket: WebSocket, req: FastifyRequest<IncomingMessage>) => {
-      const token = AuthService.getToken(req);
-      console.log("subscriptions connection =>", token, req.headers);
-
-      if (!token) {
-        websocket.send(
-          JSON.stringify({
-            type: "error",
-            payload: { code: 401, message: "未认证" },
-          })
-        );
-        return websocket.close(1000, "未认证");
+      {
+        // node原生的server，脱离了fastify的生命周期，部分请求的内容和结构可能不一致，需要开发者特别注意
+        server: router.server,
+        path: subscriptionPath,
       }
-    }
-  );
+    );
 
-  console.log(
-    `🚀 Subscriptions ready at ws://localhost:${config.get(
-      "server.port"
-    )}/${subscriptionPath}`
-  );
+    subscriptionServer.server.on(
+      "connection",
+      async (websocket: WebSocket, req: FastifyRequest<IncomingMessage>) => {
+        const token = AuthService.getToken(req);
+        // console.log("subscriptions connection =>", token, req.headers);
+
+        // 强校验Token
+        if (!token) {
+          websocket.send(
+            JSON.stringify({
+              type: "error",
+              payload: { code: 401, message: "未认证" },
+            })
+          );
+
+          return websocket.close(1000, "未认证");
+        }
+      }
+    );
+
+    console.log(
+      `🚀 Subscriptions ready at ws://localhost:${config.get(
+        "server.port"
+      )}${subscriptionPath}`
+    );
+  }
+
   next();
 }
-
-export const withSubscription = () => {};

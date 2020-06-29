@@ -3,7 +3,7 @@ import { Context } from "../context";
 import { AuthService } from "../services/auth.service";
 import { IUser } from "../models/user.model";
 import { pubsub, SubscribeTrigger } from "../services/subscribe.service";
-import { wechatQrcode, bot } from "../services/webot.service";
+import { getQrcode, bot } from "../services/webot.service";
 
 module.exports = {
   ScanStatus: {
@@ -19,18 +19,27 @@ module.exports = {
   Mutation: {
     admin: (_, __, context: Context<IUser>) => {
       const authService = new AuthService(context);
+      const log = context.req.log;
 
       return {
         start: async () => {
-          if (wechatQrcode) {
+          try {
+            if (bot.userSelf().id) {
+              pubsub.publish(SubscribeTrigger.ON_SCAN, {
+                status: "Logged",
+                url: await (await bot.userSelf().avatar()).toDataURL(),
+              });
+
+              return true;
+            }
+          } catch (error) {
+            log.info(error);
+          }
+
+          if (getQrcode()) {
             pubsub.publish(SubscribeTrigger.ON_SCAN, {
               status: ScanStatus.Waiting,
-              url: wechatQrcode,
-            });
-          } else {
-            pubsub.publish(SubscribeTrigger.ON_SCAN, {
-              status: "Logged",
-              url: (await bot.self().avatar())["remoteUrl"],
+              url: getQrcode(),
             });
           }
 
@@ -43,7 +52,7 @@ module.exports = {
           const reply: any = context.reply;
           reply.setCookie("token", token, {
             path: "/",
-            expires: new Date("2025-01-01"),
+            expires: new Date().getTime() + (86400 * 1000 + 7), // 30天
           });
 
           return token;
@@ -61,9 +70,5 @@ module.exports = {
       },
       subscribe: () => pubsub.asyncIterator(SubscribeTrigger.ON_SCAN),
     },
-
-    // onMessage: {
-    //   subscribe: () => pubsub.asyncIterator(SubscribeTrigger.ON_MESSAGE),
-    // },
   },
 };

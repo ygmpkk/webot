@@ -1,8 +1,13 @@
 # 管理端
 
 type Admin {
+  "密码登录"
   signin(identity: String!, password: String!): String
+
+  "启动服务"
   start: Boolean @scope(type: PRIVATE)
+
+  "获取Webhook Token"
   token: String @scope(type: PRIVATE)
 }
 
