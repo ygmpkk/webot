@@ -18,6 +18,14 @@
     "conf": "rob-config",
     "test": "jest"
   },
+  "files": [
+    "README.md",
+    "package.json",
+    "Dockerfile",
+    "dist",
+    "config/schema.js",
+    "config/production.js"
+  ],
   "dependencies": {
     "apollo-server-core": "2.9.16",
     "cookie": "^0.4.1",
